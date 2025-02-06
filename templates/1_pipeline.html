@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline</title>
+    <style>
+        /* General page design */
+        body {
+            background: linear-gradient(135deg, #020f40, #010a26);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Form style */
+        .form-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Button */
+        .btn {
+            width: 100%;
+            background: #007bff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        /* Result boxes */
+        .result-box {
+            background: black;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .result-box h2 {
+            font-size: 18px;
+            color: #17a2b8;
+        }
+
+        .result-box p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Transform Your Text: Translate, Summarize & Generate</h1>
+        <div class="form-box">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="user_input">Enter text:</label>
+                    <textarea id="user_input" name="user_input" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task">Choose a task:</label>
+                    <select id="task" name="task">
+                        <option value="sentiment">Sentiment Analysis</option>
+                        <option value="generation">Text Generation</option>
+                        <option value="translation">Translation</option>
+                        <option value="summarization">Summarization</option>
+                        <option value="named_entity_recognition">Named Entity Recognition</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </div>
+
+        {% if sent %}
+        <div class="result-box">
+            <h2>Sentiment Analysis:</h2>
+            <p>{{ sent[0].label }}, Score: {{ sent[0].score }}</p>
+        </div>
+        {% endif %}
+
+        {% if gen %}
+        <div class="result-box">
+            <h2>Generated Text:</h2>
+            <p>{{ gen[0].generated_text }}</p>
+        </div>
+        {% endif %}
+
+        {% if ner %}
+        <div class="result-box">
+            <h2>Named Entity Recognition (NER):</h2>
+            <p>Group entity: {{ ner[0].entity_group }}, Score: {{ ner[0].score }}, Word: {{ ner[0].word }}</p>
+        </div>
+        {% endif %}
+
+        {% if trans %}
+        <div class="result-box">
+            <h2>Translation:</h2>
+            <p>{{ trans[0].translation_text }}</p>
+        </div>
+        {% endif %}
+
+        {% if summ %}
+        <div class="result-box">
+            <h2>Summarization:</h2>
+            <p>{{ summ[0].summary_text }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
